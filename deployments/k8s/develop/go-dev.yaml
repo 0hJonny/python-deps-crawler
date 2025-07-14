@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-dev
+  namespace: python-deps-crawler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-dev
+  template:
+    metadata:
+      labels:
+        app: go-dev
+    spec:
+      containers:
+      - name: go-dev
+        image: golang:1.24.4
+        command: ["/bin/sh"]
+        args: ["-c", "sleep infinity"]
+        env:
+        - name: CGO_ENABLED
+          value: "0"
+        - name: GOOS
+          value: "linux"
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: postgres-secret
+        - secretRef:
+            name: redis-secret
+        volumeMounts:
+        - name: go-data
+          mountPath: /go
+        - name: go-code
+          mountPath: /go/src/app
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+      volumes:
+      - name: go-data
+        persistentVolumeClaim:
+          claimName: go-pvc
+      - name: go-code
+        hostPath:
+          path: /Users/yolanda/Git/py-deps-resolver
+          type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: go-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

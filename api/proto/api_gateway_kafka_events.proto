@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package api_gateway_kafka_events;
+
+option go_package = "github.com/0hJonny/python-deps-crawler/pkg/proto/kafka_message";
+
+import "google/protobuf/timestamp.proto";
+
+// Kafka event for analysis started
+message AnalysisStartedEvent {
+    string request_id = 1;
+    string user_id = 2;
+    string python_version = 3;
+    string repository_url = 4;
+
+    message RequiredPackage {
+        string package_name = 1;
+        string package_version = 2;
+        repeated string extras = 3;
+    }
+    repeated RequiredPackage packages = 5;
+    google.protobuf.Timestamp timestamp = 6;
+}
+
+// Kafka event for status updates
+message AnalysisStatusEvent {
+    string request_id = 1;
+    string status = 2;
+    string message = 3;
+    int64 progress = 4;
+    google.protobuf.Timestamp timestamp = 5;
+    string service_name = 6;
+}

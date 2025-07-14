@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: padmin
+  namespace: python-deps-crawler
+  labels:
+    app: padmin
+spec:
+  selector:
+    matchLabels:
+      app: padmin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: padmin
+    spec:
+      containers:
+      - name: padmin
+        image: dpage/pgadmin4
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 1000m
+            memory: 500Mi
+        env:
+        - name: PGADMIN_DEFAULT_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: pgadmin-secret
+              key: PGADMIN_USER
+        - name: PGADMIN_DEFAULT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgadmin-secret
+              key: PGADMIN_PASSWORD
+        ports:
+        - containerPort: 80
+          name: padmin
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: padmin-service
+  namespace: python-deps-crawler
+spec:
+  selector:
+    app: padmin
+  type: NodePort
+  ports:
+  - name: padmin-service
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30055

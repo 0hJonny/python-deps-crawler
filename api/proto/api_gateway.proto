@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package api_gateway;
+
+option go_package = "github.com/0hJonny/python-deps-crawler/pkg/proto/api_gateway";
+
+import "google/protobuf/timestamp.proto";
+
+// Request crawl deps
+message AnalyzeRequest {
+    string user_id = 1;
+    string python_version = 2;
+    string repository_url = 3;
+
+    message RequiredPackage {
+        string package_name = 1;
+        string package_version = 2;
+        repeated string extras = 3;
+    }
+    repeated RequiredPackage packages = 4;
+}
+
+// Response request ID
+message AnalyzeResponse {
+    string request_id = 1;
+    string status = 2;
+    string message = 3;
+    google.protobuf.Timestamp created_at = 4;
+}
+
+// Request status
+message StatusRequest {
+    string request_id = 1;
+}
+
+// Response status
+message StatusResponse {
+    string request_id = 1;
+    string status = 2;
+    string message = 3;
+    int64 progress = 4;
+}
