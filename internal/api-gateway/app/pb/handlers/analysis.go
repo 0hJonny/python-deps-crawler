@@ -19,11 +19,11 @@ import (
 )
 
 type AnalysisHandler struct {
-	kafkaProducer *kafka.APIGatewayProducer
-	logger        *logger.Logger
+	kafkaProducer kafka.Producer
+	logger        logger.LoggerInterface
 }
 
-func NewAnalysisHandler(kafkaProducer *kafka.APIGatewayProducer, logger *logger.Logger) *AnalysisHandler {
+func NewAnalysisHandler(kafkaProducer kafka.Producer, logger logger.LoggerInterface) *AnalysisHandler {
 	return &AnalysisHandler{
 		kafkaProducer: kafkaProducer,
 		logger:        logger,

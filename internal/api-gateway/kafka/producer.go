@@ -18,6 +18,9 @@ type APIGatewayProducer struct {
 	topic    string
 }
 
+// interface check
+var _ Producer = (*APIGatewayProducer)(nil)
+
 func NewAPIGatewayProducer(brokers []string, topic string) (*APIGatewayProducer, error) {
 	baseProducer, err := kafka.NewBaseProducer(&kafka.ProducerConfig{
 		Brokers:           brokers,

@@ -6,10 +6,11 @@ import (
 	"go.uber.org/zap"
 )
 
-// MockLogger мок для Logger, реализует LoggerInterface
 type MockLogger struct {
 	mock.Mock
 }
+
+var _ logger.LoggerInterface = (*MockLogger)(nil) // Compile-time check
 
 func NewMockLogger() *MockLogger {
 	return &MockLogger{}

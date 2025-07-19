@@ -1,4 +1,4 @@
-package handlers
+package handlers_test
 
 import (
 	"encoding/json"
@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/0hJonny/python-deps-crawler/internal/api-gateway/app/pb/handlers"
 	"github.com/0hJonny/python-deps-crawler/internal/pkg/mocks"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -16,7 +17,7 @@ func setupHealthTestRouter() (*gin.Engine, *mocks.MockLogger) {
 	gin.SetMode(gin.TestMode)
 
 	mockLogger := mocks.NewMockLogger()
-	handler := NewHealthHandler(mockLogger)
+	handler := handlers.NewHealthHandler(mockLogger)
 
 	router := gin.New()
 	router.GET("/health", handler.HealthCheck)
