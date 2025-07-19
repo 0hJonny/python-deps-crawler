@@ -158,11 +158,11 @@ func validateConfig(config *Config) error {
 
 func (c *Config) LogConfig() {
 	fmt.Printf("Configuration loaded:\n")
-	fmt.Printf("  Server: %s:%s (mode: %s)\n", c.Server.Host, c.Server.Port, c.Server.Mode)
-	fmt.Printf("  Kafka Brokers: %v\n", c.Kafka.Brokers)
-	fmt.Printf("  Kafka Topic: %s\n", c.Kafka.Topic)
-	fmt.Printf("  Database: %s:%s/%s\n", c.Database.Host, c.Database.Port, c.Database.DBName)
-	fmt.Printf("  Redis: %s:%s\n", c.Redis.Host, c.Redis.Port)
-	fmt.Printf("  PyPI API: %s\n", c.PyPI.APIURL)
-	fmt.Printf("  Log Level: %s (%s)\n", c.Logger.Level, c.Logger.Encoding)
+	fmt.Printf("\tServer: %s:%s (mode: %s)\n", c.Server.Host, c.Server.Port, c.Server.Mode)
+	fmt.Printf("\tKafka Brokers: %v\n", c.Kafka.Brokers)
+	fmt.Printf("\tKafka Topic: %s\n", c.Kafka.Topic)
+	fmt.Printf("\tDatabase: %s:%s/%s\n", c.Database.Host, c.Database.Port, c.Database.DBName)
+	fmt.Printf("\tRedis: %s:%s\n", c.Redis.Host, c.Redis.Port)
+	fmt.Printf("\tPyPI API: %s\n", c.PyPI.APIURL)
+	fmt.Printf("\tLog Level: %s (%s)\n", c.Logger.Level, c.Logger.Encoding)
 }
