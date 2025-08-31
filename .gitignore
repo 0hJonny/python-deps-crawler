@@ -32,3 +32,4 @@ bin/
 Thumbs.db
 
 cmd/test_proto
+deployments/develop/docker/docker-compose.yaml

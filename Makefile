@@ -23,19 +23,19 @@ help: ## Помощь
 
 up: ## Запустить инфраструктуру
 	@echo "$(BLUE)Запуск инфраструктуры...$(NC)"
-	@$(KUBECTL) apply -f deployments/k8s/develop/namespace.yaml
-	@$(KUBECTL) apply -f deployments/k8s/develop/configmap.yaml
-	@$(KUBECTL) apply -f deployments/k8s/develop/secrets.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/namespace.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/configmap.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/secrets.yaml
 	@echo "$(YELLOW)Запуск PostgreSQL...$(NC)"
-	@$(KUBECTL) apply -f deployments/k8s/develop/postgres.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/postgres.yaml
 	@echo "$(YELLOW)Запуск Kafka...$(NC)"
-	@$(KUBECTL) apply -f deployments/k8s/develop/kafka.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/kafka.yaml
 	@echo "$(YELLOW)Запуск Redis...$(NC)"
-	@$(KUBECTL) apply -f deployments/k8s/develop/redis.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/redis.yaml
 	@echo "$(YELLOW)Запуск Prometheus...$(NC)"
-	@$(KUBECTL) apply -f deployments/k8s/develop/prometheus.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/prometheus.yaml
 	@echo "$(YELLOW)Запуск среды разработки Go...$(NC)"
-	@$(KUBECTL) apply -f deployments/k8s/develop/go-dev.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/go-dev.yaml
 	@echo "$(GREEN)Инфраструктура запущена!$(NC)"
 	@echo "$(YELLOW)Ожидание готовности подов...$(NC)"
 	@$(KUBECTL) wait --for=condition=ready pod -l app=kafka -n $(NAMESPACE) --timeout=300s
@@ -45,15 +45,15 @@ up: ## Запустить инфраструктуру
 
 down: ## Остановить всю инфраструктуру
 	@echo "$(RED)Остановка инфраструктуры...$(NC)"
-	@$(KUBECTL) delete -f deployments/k8s/develop/go-dev.yaml --ignore-not-found=true
-	@$(KUBECTL) delete -f deployments/k8s/develop/prometheus.yaml --ignore-not-found=true
-	@$(KUBECTL) delete -f deployments/k8s/develop/redis.yaml --ignore-not-found=true
-	@$(KUBECTL) delete -f deployments/k8s/develop/kafka.yaml --ignore-not-found=true
-	@$(KUBECTL) delete -f deployments/k8s/develop/postgres.yaml --ignore-not-found=true
+	@$(KUBECTL) delete -f deployments/develop/k8s/go-dev.yaml --ignore-not-found=true
+	@$(KUBECTL) delete -f deployments/develop/k8s/prometheus.yaml --ignore-not-found=true
+	@$(KUBECTL) delete -f deployments/develop/k8s/redis.yaml --ignore-not-found=true
+	@$(KUBECTL) delete -f deployments/develop/k8s/kafka.yaml --ignore-not-found=true
+	@$(KUBECTL) delete -f deployments/develop/k8s/postgres.yaml --ignore-not-found=true
 	@echo "$(YELLOW)Очистка PVC...$(NC)"
 	@$(KUBECTL) delete pvc -n $(NAMESPACE) --all --ignore-not-found=true
-	@$(KUBECTL) delete -f deployments/k8s/develop/secrets.yaml --ignore-not-found=true
-	@$(KUBECTL) delete -f deployments/k8s/develop/configmap.yaml --ignore-not-found=true
+	@$(KUBECTL) delete -f deployments/develop/k8s/secrets.yaml --ignore-not-found=true
+	@$(KUBECTL) delete -f deployments/develop/k8s/configmap.yaml --ignore-not-found=true
 	@echo "$(RED)Удаление namespace...$(NC)"
 	@$(KUBECTL) delete namespace $(NAMESPACE) --ignore-not-found=true
 	@echo "$(GREEN)Инфраструктура остановлена!$(NC)"
@@ -150,5 +150,5 @@ proto-clean: ## Очистить сгенерированные proto файлы
 
 .PHONY: pgadmin-start
 pgadmin-start: ## Запустить pgadmin
-	@$(KUBECTL) apply -f deployments/k8s/develop/pgadmin.yaml
+	@$(KUBECTL) apply -f deployments/develop/k8s/pgadmin.yaml
 	@echo "$(YELLOW)Запуск pgAdmin...$(NC)"
